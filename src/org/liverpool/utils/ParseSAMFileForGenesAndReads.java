@@ -23,7 +23,6 @@ public class ParseSAMFileForGenesAndReads {
 	
 	
 	String samFile;
-	String outFile;
 	
 	HashMap<String, ArrayList<String>> reference_reads_map;
 	/**
@@ -31,9 +30,8 @@ public class ParseSAMFileForGenesAndReads {
 	 * @param samFile The input SAM file
 	 * @param outFile the output TSV file
 	 */
-	public ParseSAMFileForGenesAndReads(String samFile, String outFile){
+	public ParseSAMFileForGenesAndReads(String samFile){
 		this.samFile = new String(samFile);
-		this.outFile = new String(outFile);
 		this.reference_reads_map = new HashMap<String,ArrayList<String>>();
 	}
 
@@ -84,12 +82,20 @@ public class ParseSAMFileForGenesAndReads {
 		
 	}
 	
+	/**
+	 * A method to return the reference and read hash map created
+	 * @return
+	 */
+	public HashMap<String, ArrayList<String>> getReferenceReadHashMap(){
+		return this.reference_reads_map;
+	}
+	
 	/*
 	 * Write the hashMap to output file 
 	 */
-	public void writeHashToFile(){
+	public void writeHashToFile(String outFile){
 		try{
-			BufferedWriter out = new BufferedWriter(new FileWriter(new File(this.outFile)));
+			BufferedWriter out = new BufferedWriter(new FileWriter(new File(outFile)));
 			
 			Iterator<String> references = this.reference_reads_map.keySet().iterator();
 			while(references.hasNext()){
@@ -116,8 +122,8 @@ public class ParseSAMFileForGenesAndReads {
 	public static void main(String [] args){
 		String inputSam = "C:\\Ritesh-CGR-Work\\MM7-read\\listOfmappedReads-MMchr7-mapto-MouseGenesOnChr7.txt";
 		String outputTsv = "C:\\Ritesh-CGR-Work\\MM7-read\\listOfmappedReads-And-Genes.txt";
-		ParseSAMFileForGenesAndReads pr = new ParseSAMFileForGenesAndReads(inputSam, outputTsv);
+		ParseSAMFileForGenesAndReads pr = new ParseSAMFileForGenesAndReads(inputSam);
 		pr.processSAMFile();
-		pr.writeHashToFile();
+		pr.writeHashToFile(outputTsv);
 	}
 }
