@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.Set;
 
 import org.biojava3.core.sequence.DNASequence;
 import org.biojava3.core.sequence.io.FastaReaderHelper;
@@ -144,31 +145,65 @@ public class FastaFromMultipleSequenceAlignerManipulator {
 		
 	}
 	
+	
+	ArrayList<String> findAccessionsFromMSAFile(ArrayList<String> species,String sequenceFastaFile){
+		ArrayList<String> accessions = new ArrayList<String>();
+		
+		try{
+			LinkedHashMap<String,DNASequence> fastaContent  = FastaReaderHelper.readFastaDNASequence(new File(sequenceFastaFile));
+
+			for(String spec : species){
+				Iterator<String> fastaAccessions = fastaContent.keySet().iterator();
+				while(fastaAccessions.hasNext()){
+					String fastaAccession = fastaAccessions.next();
+					if(fastaAccession.contains(spec)){
+						accessions.add(fastaAccession);
+						break;
+					}
+				}
+			}
+			
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		
+		return accessions;
+	}
+	
 	/**
 	 * 
 	 * @param args
 	 */
 	public static void main(String [] args) throws Exception{
 		
-		String fastaFile = "tmp/ENSG00000139618-cds.fa";
+		String fastaFile = args[0];
+		int count_threshold = Integer.parseInt(args[1]);
+		String outFasta = args[2];
 		
-		ArrayList<String> accessions = new ArrayList<String>();
-		accessions.add("ENSP00000439902_90_Hsap_/1-10254"); // H Sap
-		accessions.add("ENSPTRP00000009812_125_Ptro_/1-10254"); // Pan troglodytes - Chimpanzee
-		accessions.add("ENSNLEP00000001277_115_Nleu_/1-10257"); // Gibbon (Nomascus leucogenys)
-		accessions.add("ENSECAP00000013146_61_Ecab_/1-10257"); // Horse (Equus caballus)
-		accessions.add("ENSTTRP00000010004_80_Ttru_/1-9921"); // Dolphin (Tursiops truncatus)
-		accessions.add("ENSCAFP00000009557_135_Cfam_/1-10338"); // Dog (Canis lupus familiaris)
-		accessions.add("ENSMUSP00000038576_134_Mmus_/1-9987"); // Mouse (Mus musculus)
-		accessions.add("ENSMODP00000033276_46_Mdom_/1-10005"); // Opossum (Monodelphis domestica)
-		accessions.add("ENSGALP00000027524_42_Ggal_/1-10191"); // Chicken (Gallus gallus)
-		accessions.add("ENSDARP00000099674_110_Drer_/1-8622"); // "Zebrafish (Danio rerio)"
+		// Input MSA in fasta format
+		//String fastaFile = "tmp/ENSG00000139618-cds.fa";
+		// Set the threshold for number of sequences for consensus start locations
+		//int count_threshold = 5; 		
+		// The output file
+		//String outFasta = "tmp/MSA-thresh5-testing.fa";
+				
 		
+		// Provide the Symbol for the species, whose MSA sequences you want to extract from the file
+		ArrayList<String> species = new ArrayList<String>();
+		species.add("Hsap"); // H Sap
+		species.add("Ptro"); // Pan troglodytes - Chimpanzee
+		species.add("Nleu"); // Gibbon (Nomascus leucogenys)
+		species.add("Ecab"); // Horse (Equus caballus)
+		species.add("Ttru"); // Dolphin (Tursiops truncatus)
+		species.add("Cfam"); // Dog (Canis lupus familiaris)
+		species.add("Mmus"); // Mouse (Mus musculus)
+		species.add("Mdom"); // Opossum (Monodelphis domestica)
+		species.add("Ggal"); // Chicken (Gallus gallus)
+		species.add("Drer"); // "Zebrafish (Danio rerio)"
 		
-		int count_threshold = 5; 
-		String outFasta = "tmp/MSA-thresh5.fa";
-		
+		// The final processing
 		FastaFromMultipleSequenceAlignerManipulator fm = new FastaFromMultipleSequenceAlignerManipulator();
+		ArrayList<String> accessions = fm.findAccessionsFromMSAFile(species,fastaFile);
 		fm.processMSAFastaFile(fastaFile, accessions, count_threshold, outFasta);
 		
 	}
