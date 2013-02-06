@@ -69,10 +69,10 @@ public class AnalyseOrthologSamFiles {
 	 * @param args
 	 */
 	public static void main(String [] args){
-		String samFileMappedOnSpecies_1 = "/Users/ritesh/Ritesh_CGR_Work/Ortholog-data/mapped_data/listOfmappedReads-MMchr7-mapto-MouseGenesOnChr7.txt";
-		String samFileMappedOnSpecies_2 = "/Users/ritesh/Ritesh_CGR_Work/Ortholog-data/mapped_data/listOfmappedReads-MMchr7PP-mapto-HumanChrPP.txt"; 
-		String orthologGeneFile = "/Users/ritesh/Ritesh_CGR_Work/Ortholog-data/mapped_data/mousechr7-ortholog-wrt-human-sequences-list.txt";
-		String outFile = "/Users/ritesh/Ritesh_CGR_Work/Ortholog-data/mapped_data/output.txt";
+		String samFileMappedOnSpecies_1 = "/Users/ritesh/Ritesh_CGR_Work/Ortholog-data/mapped_data/MM7-on-MouseGenes/listOfmappedReads-MMchr7-mapto-MouseGenesOnChr7.txt";
+		String samFileMappedOnSpecies_2 = "/Users/ritesh/Ritesh_CGR_Work/Ortholog-data/mapped_data/MM7-on-HumanGenes/grepped_MMchr7PP-mapto-HumanEnsembleGenes-indel5000.sam"; 
+		String orthologGeneFile = "/Users/ritesh/Ritesh_CGR_Work/Ortholog-data/mapped_data/MM7-on-HumanChrs/mousechr7-ortholog-wrt-human-sequences-list.txt";
+		String outFile = "/Users/ritesh/Ritesh_CGR_Work/Ortholog-data/mapped_data/MM7-on-HumanGenes/output-humangenes-indel-5000.txt";
 		
 		AnalyseOrthologSamFiles ao = new AnalyseOrthologSamFiles(samFileMappedOnSpecies_1, samFileMappedOnSpecies_2, orthologGeneFile);
 		ao.performAnalysis(outFile);

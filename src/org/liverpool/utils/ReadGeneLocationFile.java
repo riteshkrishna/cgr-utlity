@@ -19,11 +19,11 @@ public class ReadGeneLocationFile {
 	
 	String fileDelimiter = "\t";
 	String inputFile;
-	HashMap<String, int[] > geneLocationMap;
+	HashMap<String, long[] > geneLocationMap;
 	
 	public ReadGeneLocationFile(String inputFile){
 		this.inputFile = inputFile;
-		this.geneLocationMap = new HashMap<String, int[]>();
+		this.geneLocationMap = new HashMap<String, long[]>();
 	}
 	
 	
@@ -43,10 +43,10 @@ public class ReadGeneLocationFile {
 				
 				
 					String gene = records[0];
-					int start = Integer.parseInt(records[1]);
-					int end = Integer.parseInt(records[2]);
+					long start = Long.parseLong(records[1]);
+					long end = Long.parseLong(records[2]);
 					
-					int [] location = new int[2];
+					long [] location = new long[2];
 					location[0] = start;
 					location[1] = end;
 					this.geneLocationMap.put(gene, location);
@@ -64,7 +64,7 @@ public class ReadGeneLocationFile {
 	 * The main function which does everything
 	 * @return
 	 */
-	public HashMap<String, int[] > getGeneLocationMap(){
+	public HashMap<String, long[] > getGeneLocationMap(){
 		createHashFromFile();
 		return this.geneLocationMap;
 	}

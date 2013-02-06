@@ -10,7 +10,8 @@ import java.util.Scanner;
 
 /**
  * This program parses a SAM file and creates a hashMap of matched reads with the reference
- * accession. The matched reads are identified by their CIGAR field being "=".
+ * accession. The matched reads are identified by their RPOS field not being "*". And we assume
+ * that the @SQ section is present in the original SAM file, so we have proper accessions in RPOS.
  *  
  * @author riteshk
  *
@@ -50,7 +51,8 @@ public class ParseSAMFileForGenesAndReads {
 				if(records.length < 11)
 					continue;
 				
-				if(records[CIGAR_col].equals("=")){
+				//if(records[CIGAR_col].equals("=")){
+				if(!records[RNAME_col].equals("*")){
 					String read_id = records[QNAME_col];
 					String reference_id = records[RNAME_col];
 					
