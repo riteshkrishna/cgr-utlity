@@ -1,6 +1,9 @@
 package org.liverpool.Simulation;
 /**
  * Simulation 4: Creates a FASTQ file from all the sequences in a FASTA file
+ * 
+ * Usage :
+ * -read_length 150 -offset 70 -sequenceFastaFile fastaFile.fa -outputFastqFile fastqFile.fq
  */
 import java.io.BufferedWriter;
 import java.io.File;
@@ -10,6 +13,7 @@ import java.util.LinkedHashMap;
 
 import org.biojava3.core.sequence.DNASequence;
 import org.biojava3.core.sequence.io.FastaReaderHelper;
+import org.liverpool.utils.GetCommandLineParameters;
 
 public class SimulateFastqFromFastaFile {
 
@@ -18,10 +22,22 @@ public class SimulateFastqFromFastaFile {
 	 */
 	public static void main(String[] args) {
 		
-		int desiredReadLength = 70;
-		int OFFSET = 30; 
-		String sequenceFastaFile = "/Users/ritesh/Ritesh_CGR_Work/Ortholog-data/Multi-Species-Approach/FromEnsemble/April/SpeciesWise-All-Human-Orth-Gene-HomologScript/Ttru.txt";
-		String outputFastqFile = "/Users/ritesh/Ritesh_CGR_Work/Ortholog-data/Multi-Species-Approach/FromEnsemble/April/SpeciesWise-All-Human-Orth-Gene-HomologScript/Fastq-Ttru.txt";
+		if(args.length < 8){
+			String cmd = "-read_length readLength -offset offset -sequenceFastaFile fastaFile -outputFastqFile fastqFile"; 
+            System.out.println(cmd);
+		}
+        /*
+		// note - 13/3/2014 - this setting will be used from now on 
+		int desiredReadLength = 150;
+		int OFFSET = 70; 
+		String sequenceFastaFile = "/Users/ritesh/Ritesh_CGR_Work/Ortholog-data/Multi-Species-Approach/FromEnsemble/April/SpeciesWise-All-Human-Orth-Gene-HomologScript/Cfam.txt";
+		String outputFastqFile = "/Users/ritesh/Ritesh_CGR_Work/Ortholog-data/Multi-Species-Approach/FromEnsemble/April/SpeciesWise-All-Human-Orth-Gene-HomologScript/FASTQ-Sequences/length-150/Fastq-Cfam-150.txt";
+		*/
+        
+		int desiredReadLength = Integer.parseInt(GetCommandLineParameters.getCmdParameter(args, "read_length", true));
+		int OFFSET = Integer.parseInt(GetCommandLineParameters.getCmdParameter(args, "offset", true));
+		String sequenceFastaFile = GetCommandLineParameters.getCmdParameter(args, "sequenceFastaFile", true);
+		String outputFastqFile = GetCommandLineParameters.getCmdParameter(args, "outputFastqFile", true);
 		
 		
 		if(desiredReadLength <= OFFSET){
