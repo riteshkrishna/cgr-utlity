@@ -20,6 +20,8 @@ import java.util.regex.Pattern;
  *  Once the BED file is created, we can use BEDtools to extract the sequences from the reference
  *  FASTA file. 
  *   
+ *  This program also outputs another file that contains the read-identifier and the read-sequence.
+ *   
  *  NOTE : This program considers only the CIGARs with M, D and I operations, it will ignore reads
  *  with N, S, H and P operations.
  *   
@@ -38,10 +40,11 @@ public class CreateBEDFileFromSAMFile {
 	final int SEQ_col = 9;
 	
 	
-	public void processSAMFile(String inputSAMFile, String outputBEDFile){
+	public void processSAMFile(String inputSAMFile, String outputBEDFile, String outputReadIdAndSequenceFile){
 		try{
 			
 			BufferedWriter out_bed = new BufferedWriter(new FileWriter(new File(outputBEDFile)));
+			BufferedWriter out_seq = new BufferedWriter(new FileWriter(new File(outputReadIdAndSequenceFile)));
 			
 			Scanner scanner = new Scanner(new File(inputSAMFile));
 						
@@ -78,12 +81,15 @@ public class CreateBEDFileFromSAMFile {
 						// start = (pos-1) as SAM starts from 1; end = end (as BED doesn't include the last position)
 						String bed_line = reference_id + "\t" + (pos-1) + "\t" + end + "\t" + read_id + "\t" + 0 + "\t" + strand + "\n";
 						out_bed.write(bed_line);
+						
+						out_seq.write(read_id + "\t" + sequence + "\n");	
 					}
 				}
 				
 			} // end of while
 			
 			out_bed.close();
+			out_seq.close();
 			scanner.close();
 			
 		}catch(Exception e){
@@ -161,11 +167,20 @@ public class CreateBEDFileFromSAMFile {
 						" with N, S, H and P operations. ";
 		 System.out.println(note);
 		 
-		 String inputSAMFile = "/Users/ritesh/tmp/test.sam";
-		 String outputBEDFile = "/Users/ritesh/tmp/test-new.bed";
+		 /* Example run -1
+		 String inputSAMFile = "/Users/ritesh/tmp/cfam-custom_4_not-a-option.sam";
+		 String outputBEDFile = "/Users/ritesh/tmp/cfam-custom_4_not-a-option-new.bed";
+		 String outputReadSequenceFile = "/Users/ritesh/tmp/cfam-custom_4_not-a-option-new.fa";
+		 */
+		 
+		 // Example run -2
+		 String inputSAMFile = "/Users/ritesh/Ritesh_CGR_Work/Ortholog-data/Multi-Species-Approach/FromEnsemble/April/Analysis-Bowtie-JC69/Sample-Sams/DN-DS/example-data/Dog-150/cfam-150-unsplicedHuman.sam";
+		 String outputBEDFile = "/Users/ritesh/Ritesh_CGR_Work/Ortholog-data/Multi-Species-Approach/FromEnsemble/April/Analysis-Bowtie-JC69/Sample-Sams/DN-DS/example-data/Dog-150/cfam-150-unsplicedHuman-new.bed";
+		 String outputReadSequenceFile = "/Users/ritesh/Ritesh_CGR_Work/Ortholog-data/Multi-Species-Approach/FromEnsemble/April/Analysis-Bowtie-JC69/Sample-Sams/DN-DS/example-data/Dog-150/cfam-150-unsplicedHuman-samread.fa";
+		 
 		 
 		 CreateBEDFileFromSAMFile cb = new CreateBEDFileFromSAMFile();
-		 cb.processSAMFile(inputSAMFile,outputBEDFile);
+		 cb.processSAMFile(inputSAMFile,outputBEDFile,outputReadSequenceFile);
 
 	}
 
