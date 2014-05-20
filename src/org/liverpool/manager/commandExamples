@@ -1,0 +1,7 @@
+Batch execution of Bowtie-2
+-----------------------------
+runBowtie -bowtie_home /Users/ritesh/Software/bowtie2-2.1.0-binary -bowtie_db_path /Users/ritesh/Ritesh_CGR_Work/bowtie-database/Ensembl-Human-gene-cdna -fastq_path /Users/ritesh/Ritesh_CGR_Work/Ortholog-data/Multi-Species-Approach/FromEnsemble/April/SpeciesWise-All-Human-Orth-Gene-HomologScript/FASTQ-Sequences/length-150/small_test_Fastq-Cfam-150.fq.txt -sam_path /Users/ritesh/tmp/out.sam -screenout_path /Users/ritesh/tmp/Screenout.txt -bowtie_script_file /Users/ritesh/tmp/BT2_script -bowtie_batch_run_output /Users/ritesh/tmp/batch_run_output.txt -seed_step 10
+
+Bedtools execution
+---------------------
+runBedTools -bedtoolpath /Users/ritesh/Software/bedtools-2.17.0/bin/bedtools -referencefasta /Users/ritesh/Ritesh_CGR_Work/Ortholog-data/Multi-Species-Approach/FromEnsemble/April/ReferenceDB/Ensembl-Human-knownprotCoding-unspliced-genes.fa -inputsam /Users/ritesh/tmp/out.sam -outputbed /Users/ritesh/tmp/out.bed -outputsamsequence /Users/ritesh/tmp/samseq.fa -outputrefsequence /Users/ritesh/tmp/refseq.fa
